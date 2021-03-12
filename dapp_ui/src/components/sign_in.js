@@ -12,8 +12,8 @@ const drizzleOptions = {
 }
 function sign_in() {
     return (
-        <DrizzleProvider options={drizzleOptions}>
-            <LoadingContainer>
+        <>
+
 
 
                 <div className="form-wrapper">
@@ -45,8 +45,8 @@ function sign_in() {
                     {/* <ContractForm contract="CRUD" method="create_User"/> */}
 
                 </div>
-            </LoadingContainer>
-        </DrizzleProvider>
+
+        </>
 
     )
 }
