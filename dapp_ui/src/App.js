@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom';
 import sign_in from './components/sign_in';
 import sign_up from './components/sign_up';
-
+import dashboard from './components/dashboard';
 function App() {
     return (
         <>
@@ -12,6 +12,7 @@ function App() {
                 <Switch>
                     <Route path='/' exact component={sign_in}></Route>
                     <Route path='/sign_up' exact component={sign_up}></Route>
+                    <Route path='/dashboard' exact component={dashboard}></Route>
                 </Switch>
             </Router>
 
