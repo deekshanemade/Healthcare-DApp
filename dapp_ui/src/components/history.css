@@ -7,18 +7,30 @@
     width: 90%;
     border: 1px solid #e6e6e6;
     font-size: 1rem;
-    color: #b5b0b0;
+    color: #868686;
     padding: 0.8rem;
     margin: 1rem auto;
 }
 
 .document-image{
+    /* background-image: url(../assets/doc-icon.svg); */
+}
 
+.medical-data-container{
+    width: 70%;
+    display: inline-block;
+    padding: 1rem;
+    vertical-align: top;
+}
+
+.data-heading{
+    margin: 0;
 }
 
 .medical-data{
     margin: 0;
     display: inline-block;
     color: black;
-    margin-left: 1px;
+    /* margin-left: 1px; */
+    /* margin: 0.8rem 0.5rem */
 }
