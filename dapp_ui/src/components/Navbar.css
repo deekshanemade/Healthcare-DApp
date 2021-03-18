@@ -1,7 +1,14 @@
-.flex-column{
-    margin: 2rem;
+ul{
+    margin-top: 1rem !important; 
+    list-style-type: none  ;
 }
-.modify{
-    color: black;
+.title{
+    color: black !important ;
     font-size: 1.2rem;
+    margin: 1rem 2rem  !important;
+}
+.modify,a{
+    font-size: 1.2rem;
+    margin: 1rem 0  !important;
+    text-decoration: none !important;
 }

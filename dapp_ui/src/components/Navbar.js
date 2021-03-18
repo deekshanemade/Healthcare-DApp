@@ -1,14 +1,18 @@
-import Nav from 'react-bootstrap/Nav';
-import '../components/Navbar.css';
+//import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
+import './Navbar.css';
+import logo from '../assets/profile-user.svg';
+import { Link } from 'react-router-dom';
 function Navbar() {
     return (
         <>
-            <Nav defaultActiveKey="/" className="flex-column">
-                <Nav.Link href="/dashboard" className="modify">Patient Data DApp</Nav.Link>
-                <Nav.Link eventKey="link-1" className="modify">Profile</Nav.Link>
-                <Nav.Link eventKey="link-2" className="modify">Medical history</Nav.Link>
-                <Nav.Link eventKey="link-3" className="modify">Insurance claim</Nav.Link>
-            </Nav>
+            <div class="title"><span><img src={logo} /> UserName</span></div>
+            <ul>
+                <li class="modify"><Link to="/profile">Profile</Link></li>
+                <li class="modify"><Link to="/history">Medical history</Link></li>
+                <li class="modify"><Link>Insurance claim</Link></li>
+                <Button variant="outline-danger">Sign out</Button>
+            </ul>
         </>
     )
 }
