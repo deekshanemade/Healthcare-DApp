@@ -1,0 +1,11 @@
+.sidenav{
+    min-height: 100vh;
+    background-color:#94CFED;
+}
+.dash{
+    text-align: center;
+    font-size: 2rem;
+    margin: 1rem 0;
+    color: blue;
+    font-weight: 600;
+}

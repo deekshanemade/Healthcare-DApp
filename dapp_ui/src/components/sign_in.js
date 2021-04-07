@@ -12,15 +12,15 @@ const drizzleOptions = {
 }
 function sign_in() {
     return (
-        <DrizzleProvider options={drizzleOptions}>
-            <LoadingContainer>
-                
-                
+        <>
+
+
+
                 <div className="form-wrapper">
-                <div>
-                <AccountData accountIndex={0}></AccountData>
-                <ContractData contract="CRUD" method="read_Userdata"></ContractData>
-                </div>
+                    <div>
+                        {/* <AccountData accountIndex={0}></AccountData> */}
+                        {/* <ContractData contract="CRUD" method="read_Userdata"></ContractData> */}
+                    </div>
                     <Form>
                         <h2 className="heading">Login</h2>
                         <Form.Group controlId="formBasicEmail">
@@ -33,17 +33,20 @@ function sign_in() {
                             <Form.Control type="password" className="input-box" placeholder="Password" />
                         </Form.Group>
                         <div className="login-button">
-                            <Button variant="primary" type="submit" onClick="">
-                                Login
-                </Button>
+                            <Link to='/dashboard' className="link">
+                                <Button variant="primary" type="submit">
+                                    Login
+                                </Button>
+                            </Link>
+
                         </div>
                     </Form>
                     <p>Don't have an account? <Link to='/sign_up' className="link">Sign up</Link></p>
-                    <ContractForm contract="CRUD" method="create_User"/>
+                    {/* <ContractForm contract="CRUD" method="create_User"/> */}
 
                 </div>
-            </LoadingContainer>
-        </DrizzleProvider>
+
+        </>
 
     )
 }
