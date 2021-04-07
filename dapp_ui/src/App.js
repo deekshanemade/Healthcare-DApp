@@ -4,14 +4,23 @@ import Button from 'react-bootstrap/Button';
 import { BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom';
 import sign_in from './components/sign_in';
 import sign_up from './components/sign_up';
+import history from './components/history';
+import medical_details from './components/medical_details'
+import { DrizzleProvider } from '@drizzle/react-plugin'
+import CRUD from './artifacts/CRUD.json'
+
+const drizzleOptions = {
+    contracts: [CRUD]
+}
 
 function App() {
     return (
-        <>
+        <DrizzleProvider options={drizzleOptions}>
             <Router>
                 <Switch>
-                    <Route path='/' exact component={sign_in}></Route>
+                    <Route path='/' exact component={history}></Route>
                     <Route path='/sign_up' exact component={sign_up}></Route>
+                    <Route path='/medical-details' exact component={medical_details}></Route>
                 </Switch>
             </Router>
 
@@ -39,7 +48,7 @@ function App() {
                     </div>
                 </div>
             </div> */}
-        </>
+            </DrizzleProvider>
     );
 }
 
