@@ -3,6 +3,7 @@ import './sign_in.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import {Col} from 'react-bootstrap';
 import sign_up from './sign_up';
 import CRUD from '../artifacts/CRUD.json';
 import { DrizzleProvider } from '@drizzle/react-plugin';
@@ -23,12 +24,12 @@ function sign_in() {
                     </div>
                     <Form>
                         <h2 className="heading">Login</h2>
-                        <Form.Group controlId="formBasicEmail">
+                        <Form.Group as={Col} controlId="formBasicEmail">
                             {/* <Form.Label>Email address</Form.Label> */}
                             <Form.Control type="text" className="input-box" placeholder="Enter email" />
                         </Form.Group>
 
-                        <Form.Group controlId="formBasicPassword">
+                        <Form.Group as={Col} controlId="formBasicPassword">
                             {/* <Form.Label>Password</Form.Label> */}
                             <Form.Control type="password" className="input-box" placeholder="Password" />
                         </Form.Group>
