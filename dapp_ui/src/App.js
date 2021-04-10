@@ -10,7 +10,7 @@ function App() {
         <>
             <Router>
                 <Switch>
-                    <Route path='/' exact component={sign_in}></Route>
+                    <Route path='/' exact component={sign_up}></Route>
                     <Route path='/sign_up' exact component={sign_up}></Route>
                     <Route path='/dashboard' exact component={dashboard}></Route>
                 </Switch>
@@ -40,7 +40,7 @@ function App() {
                     </div>
                 </div>
             </div> */}
-        </>
+            </>
     );
 }
 
