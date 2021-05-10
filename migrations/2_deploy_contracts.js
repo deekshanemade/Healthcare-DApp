@@ -1,5 +1,5 @@
-const CRUD = artifacts.require("CRUD");
+const Healthcare = artifacts.require("Healthcare");
 
 module.exports = function (deployer) {
-  deployer.deploy(CRUD);
+  deployer.deploy(Healthcare);
 };

@@ -1,4 +1,8 @@
-pragma solidity ^0.5.0;
+// SPDX-License-Identifier: MIT
+
+
+// SPDX-License-Identifier: Something Else
+pragma solidity >=0.4.22 <=0.8.4;
 
 contract CRUD{
 
@@ -11,11 +15,10 @@ User public users=User({userId:1,username:"Diyu"});
 uint public nextId=1;
 
 //add User(patient,Doctor,Insurance_Agent)
-function create_User(string memory username)public{
-    // users.push(User(nextId,username));
-    // nextId++;
-    // }
-    users.username=username;}
+function create_User(uint Id, string memory name)public{
+    nextId=Id;
+    users.username=name;
+    }
     
 //find user by passing ID
 
