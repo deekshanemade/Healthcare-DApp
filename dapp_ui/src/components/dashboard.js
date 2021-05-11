@@ -2,12 +2,12 @@ import React from 'react'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from './Navbar';
-import history from './history';
-import profile from './profile';
+import History from './history';
+import Profile from './profile';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import '../components/dashboard.css';
-function dashboard() {
+function dashboard({drizzle,drizzleState}) {
     return (
         <>
             <Router>
@@ -18,9 +18,8 @@ function dashboard() {
                     <Col>
                         <div className="dash">Dashboard</div>
                         <Switch>
-                            <Route path='/dashboard' exact component={profile} />
-                            <Route path='/profile' exact component={profile} />
-                            <Route path='/history' exact component={history} />
+                            <Route exact path='/dashboard' render={()=><Profile drizzle={drizzle} drizzleState={drizzleState} />} />
+                            <Route exact path='/dashboard/history' render={()=><History drizzle={drizzle} drizzleState={drizzleState} />} />
                         </Switch>
                     </Col>
                 </Row>

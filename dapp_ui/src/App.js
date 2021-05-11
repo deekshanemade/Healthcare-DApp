@@ -35,7 +35,7 @@ const App = () => {
                             <Switch>
                                 <Route exact path='/' render={()=><SignIn drizzle={drizzle} drizzleState={drizzleState} />}></Route>
                                 {/* <Route exact path='/sign_in' component={SignIn} drizzle={drizzle} drizzleState={drizzleState}></Route> */}
-                                <Route exact path='/dashboard'component={Dashboard}></Route>
+                                <Route exact path='/dashboard' render={()=><Dashboard drizzle={drizzle} drizzleState={drizzleState}/>}></Route>
                             </Switch>
                         </Router>
                     )

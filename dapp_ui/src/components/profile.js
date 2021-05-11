@@ -1,11 +1,35 @@
 import React from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
+import { Row, Col } from 'react-bootstrap';
+// import Form from 'react-bootstrap/Form';
 import './profile.css';
-function profile() {
+import { newContextComponents } from "@drizzle/react-components";
+const { ContractData, ContractForm } = newContextComponents;
+
+function profile(props) {
+    const { drizzle, drizzleState } = props;
+    let sender = drizzle.web3.eth.accounts.givenProvider.selectedAddress; //gives the connected Metamask account
+    // const data = drizzle.contracts.Healthcare.methods["showAccInfo()"].call();
+    // console.log(data);
+
     return (
         <div className="form-css">
-            <Form>
+            <h2>Account Information</h2>
+            <Row>
+                <Col>
+                    <ContractData drizzle={drizzle} drizzleState={drizzleState} contract="Healthcare" method="showAccInfo" methodArgs={[sender, { from: sender }]} />
+                </Col>
+            </Row>
+            <h2>Personal Information</h2>
+            <Row>
+                <Col>
+                    <ContractData drizzle={drizzle} drizzleState={drizzleState} contract="Healthcare" method="showPersonalInfo" methodArgs={[sender, { from: sender }]} />
+                </Col>
+                <Col className="form">
+                    <ContractForm drizzle={drizzle} contract="Healthcare" method="updateUserInfo" sendArgs={{ from: sender, gas: 600000 }} />
+                </Col>
+            </Row>
+
+            {/* <Form>
                 <Form.Label column="lg">Account Info</Form.Label>
                 <Form.Group as={Row}>
                     <Form.Label column lg={2}>User Id</Form.Label>
@@ -66,7 +90,7 @@ function profile() {
                         <Form.Label>Gender </Form.Label>
                         <Form.Row>
                             <Form.Check custom inline type="radio" label="Female" id="custom-radio-1" />
-                            <Form.Check custom inline type="radio" label="Male" id="custom-radio-2"/>
+                            <Form.Check custom inline type="radio" label="Male" id="custom-radio-2" />
                         </Form.Row>
                     </Form.Group>
                     <Form.Group as={Col}>
@@ -102,7 +126,7 @@ function profile() {
                     </Form.Group>
                 </Form.Row>
                 <Button type="submit">Save</Button>
-            </Form>
+            </Form> */}
         </div>
     )
 }

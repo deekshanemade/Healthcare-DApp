@@ -1,11 +1,17 @@
 .form-wrapper{
-    width: 30%;
+    width: 60%;
     margin: 3rem auto 0 auto;
-    padding: 4rem 7rem;
+    padding: 4rem 0;
     text-align: center;
     border: 1px solid;
 }
-
+.form-wrapper2{
+    width: 60%;
+    margin: 3rem auto 0 auto;
+    padding: 4rem 0;
+    text-align: center;
+    border: 1px solid;
+}
 .input-box{
     width: 95%;
     outline: none;

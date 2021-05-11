@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 function Navbar() {
     return (
         <>
-            <div class="title"><span><img src={logo} /> UserName</span></div>
+            <div className="title"><span><img src={logo} /> UserName</span></div>
             <ul>
-                <li class="modify"><Link to="/profile">Profile</Link></li>
-                <li class="modify"><Link to="/history">Medical history</Link></li>
-                <li class="modify"><Link>Insurance claim</Link></li>
+                <li className="modify"><Link to="/dashboard">Profile</Link></li>
+                <li className="modify"><Link to="/dashboard/history">Medical history</Link></li>
+                <li className="modify"><Link to="/dashboard/#">Insurance claim</Link></li>
                 <Button variant="outline-danger">Sign out</Button>
             </ul>
         </>
