@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 import History from './history';
 import Profile from './profile';
 import SignIn from './sign_in';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import '../components/dashboard.css';
 
 function dashboard(props) {
