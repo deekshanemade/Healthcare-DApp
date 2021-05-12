@@ -3,7 +3,7 @@ import './sign_in.css';
 import { Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal'
-import { Link, useHistory, withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 // import Form from 'react-bootstrap/Form';
 // import { Col } from 'react-bootstrap';
 import { newContextComponents } from "@drizzle/react-components";
@@ -14,14 +14,13 @@ function SignIn({ drizzle, drizzleState }) {
     const [show, setShow] = useState(false);
 
     const acc = drizzle.web3.eth.accounts.givenProvider.selectedAddress;
-    console.log(acc, user)
     const history = useHistory();
     const handleLogin = () => {
         const u = user.toLowerCase();
-        console.log(u);
-        if (u == acc) {
-            console.log("equal")
+        console.log("Metamask:" ,acc,"Input: ",u);
+        if (u === acc) {
             history.push('/dashboard');
+            history.go();
         }else{
             handleShow();
         }

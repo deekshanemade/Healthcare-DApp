@@ -73,7 +73,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -102,7 +103,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -141,7 +143,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.4+commit.c7e474f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"userName\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"userAddr\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"userRole\",\"type\":\"string\"}],\"name\":\"addUser\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"userAddr\",\"type\":\"address\"}],\"name\":\"showAccInfo\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"Account\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"UserName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"UserRole\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"userAddr\",\"type\":\"address\"}],\"name\":\"showPersonalInfo\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"FirstName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"MiddleName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"LastName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"Gender\",\"type\":\"string\"},{\"internalType\":\"uint8\",\"name\":\"Age\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"showUsersCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"fName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"mName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"lName\",\"type\":\"string\"},{\"internalType\":\"bool\",\"name\":\"gender\",\"type\":\"bool\"},{\"internalType\":\"uint8\",\"name\":\"age\",\"type\":\"uint8\"}],\"name\":\"updateUserInfo\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/E/BE_project/project/contracts/Healthcare.sol\":\"Healthcare\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/E/BE_project/project/contracts/Healthcare.sol\":{\"keccak256\":\"0x560da80205b51528e48cd46da1196716167478b015c8f65d9d2f739da4fd0307\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://77ac2aba7e5d2c3be06f1219a317571b9c93fd9d900497614cd2566c5956745f\",\"dweb:/ipfs/Qmbz4NmwYiGm8apE2UK8TQSR3wa835CErHosRPkhqoiThn\"]}},\"version\":1}",
@@ -15291,12 +15294,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x0e058587eEB5CB659d1FFa64CF1f5495fCBA6974",
-      "transactionHash": "0x4569429987caf55d45eba3e296ec79c4dd0325f2accaa2128f6c69aef52c8718"
+      "address": "0x1E633ca6266f371476f6F40dE0d04E185757E971",
+      "transactionHash": "0xc65a813471f10e677f9e7feff1393f272330753075b7780b6b77510d9a7e8a83"
     }
   },
   "schemaVersion": "3.3.1",
-  "updatedAt": "2021-05-11T16:52:54.986Z",
+  "updatedAt": "2021-05-12T05:33:16.564Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},

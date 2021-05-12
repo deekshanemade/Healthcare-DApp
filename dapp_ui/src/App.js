@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SignIn from './components/sign_in';
 import Dashboard from './components/dashboard';
 import { DrizzleContext } from "@drizzle/react-plugin";
-import { Drizzle, generateStore } from "@drizzle/store";
+import { Drizzle } from "@drizzle/store";
 import Healthcare from './artifacts/Healthcare.json';
 
 const drizzleOptions = {
@@ -43,6 +43,6 @@ const App = () => {
                 </DrizzleContext.Consumer>
         </DrizzleContext.Provider>
     );
-}
+};
 
 export default App;
