@@ -56,6 +56,10 @@ contract Healthcare {
     function showUsersCount() public view returns(uint256){
         return(usersArray.length);
     }
+
+    function showUserName(address userAddr) public view returns(string memory UserName){
+        return(user[userAddr].userName);
+    }
     
     function showAccInfo(address userAddr) public view returns(address Account,string memory UserName,string memory UserRole){
         require(msg.sender==userAddr && userAddr != owner ,"You don't have permission to view user account details!");
@@ -71,11 +75,12 @@ contract Healthcare {
         return(user[userAddr].firstName,user[userAddr].middleName,user[userAddr].lastName,gender,user[userAddr].age,user[userAddr].noOfRecords); 
     }
         
-    function addRecord(string memory index,string memory _reason,string memory _desc) public payable{
+    function addRecord(string memory index,address userAddr, string memory _reason,string memory _desc) public payable{
         Document memory d = documents[index];
         d.reason=_reason;
         d.desc=_desc;
         documents[index]=d;
+        user[userAddr].noOfRecords++;
     }
     function addMedicalDocs(string memory index,string memory hash) public payable{
      documents[index].medicalDocs.push(hash);   

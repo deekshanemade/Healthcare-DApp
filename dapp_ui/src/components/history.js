@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 
 let showHistory = true;
 
-function history() {    
+function History() {    
     const medicalHistory=[{Reason:"a",Description:"a"},{Reason:"b",Description:"b"},{Reason:"c",Description:"c"}]
     const history = useHistory();
     const handleEvent = () => history.push('/dashboard/medical-details');
@@ -33,6 +33,6 @@ function history() {
 }
 
 
-ReactDOM.render(history, document.getElementById('root'));
+ReactDOM.render(History, document.getElementById('root'));
 
-export default history
+export default History
