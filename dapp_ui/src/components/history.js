@@ -4,7 +4,6 @@ import doc from '../assets/doc-icon.svg'
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
-import medical_details from './medical_details';
 
 let showHistory = true;
 
@@ -12,7 +11,7 @@ function history() {
     const medicalHistory=[{Reason:"a",Description:"a"},{Reason:"b",Description:"b"},{Reason:"c",Description:"c"}]
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const history = useHistory();
-    const handleEvent = () => history.push('/medical-details');
+    const handleEvent = () => history.push('/dashboard/medical-details');
     if(showHistory){
     return (
         <>

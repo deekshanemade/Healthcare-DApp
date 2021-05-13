@@ -4,11 +4,9 @@
 pragma solidity 0.8.4;
 
 contract Healthcare {
-    mapping(address => uint256) internal userID;
-    uint256 internal numberOfUsers;
-    address internal owner = msg.sender;
+    address internal owner = msg.sender; //store account address that deployed the smart contract
 
-    struct User {
+    struct User {                       //For storing user info
         address userPK;
         string userName;
         string userRole;
@@ -17,51 +15,78 @@ contract Healthcare {
         string lastName;
         bool gender;
         uint8 age;
+        uint noOfRecords;
     }
-    User[] users;
-
-    constructor() {
-        numberOfUsers = 0;
-        users.push(User(owner,"Admin","Admin","Admin","Admin","Admin",false,0));
+    mapping(address => User) user;
+    address[] usersArray;               //To get total number of users
+    
+    struct Document{                    //For storing user documents using unique key made of userAddr_index
+        string reason;
+        string desc;
+        string[] medicalDocs;
+        string[] bills;
     }
-
+    mapping(string=>Document) documents;
+    
     function addUser(string memory userName, address userAddr,string memory userRole) public{
-        require(userID[userAddr] == 0 && msg.sender!=owner,"User already exists!");
-        require(userAddr==msg.sender,"Provided account address does not match sender account!");
-            userID[userAddr] = users.length;
-            users.push(User(userAddr, userName, userRole,"First Name","Middle Name","Last Name",false,0));
-            numberOfUsers = numberOfUsers + 1;
+        require(userAddr==msg.sender && msg.sender!=owner,"Incorrect user address!");
+            User memory u = user[userAddr];
+            u.userPK=userAddr;
+            u.userName=userName;
+            u.userRole=userRole;
+            u.firstName="First Name";
+            u.middleName="Middle Name";
+            u.lastName="Last Name";
+            u.gender=false;
+            u.age=0;
+            u.noOfRecords=0;
+            user[userAddr]=u;
+            usersArray.push(userAddr);
     }
     
     function updateUserInfo(string memory fName,string memory mName,string memory lName,bool gender, uint8 age) public{
-        uint256 id = userID[msg.sender];
-        require(id!=0,"You don't have permission to update user info!");
-        users[id].firstName=fName;
-        users[id].middleName=mName;
-        users[id].lastName=lName;
-        users[id].gender=gender;
-        users[id].age=age;
-        
+        require(msg.sender!=owner,"You cannot update user info!");
+        user[msg.sender].firstName=fName;
+        user[msg.sender].middleName=mName;
+        user[msg.sender].lastName=lName;
+        user[msg.sender].gender=gender;
+        user[msg.sender].age=age;
     }
     
     function showUsersCount() public view returns(uint256){
-        return(numberOfUsers);
+        return(usersArray.length);
     }
     
     function showAccInfo(address userAddr) public view returns(address Account,string memory UserName,string memory UserRole){
-        require(msg.sender==userAddr && userID[userAddr] != 0 ,"You don't have permission to view user account details!");
-        uint256 id = userID[userAddr];
-        return(users[id].userPK,users[id].userName,users[id].userRole); 
+        require(msg.sender==userAddr && userAddr != owner ,"You don't have permission to view user account details!");
+        return(user[userAddr].userPK,user[userAddr].userName,user[userAddr].userRole); 
     }
     
-    function showPersonalInfo(address userAddr) public view returns(string memory FirstName,string memory MiddleName,string memory LastName,string memory Gender,uint8 Age){
-        uint256 id = userID[userAddr];
+    function showPersonalInfo(address userAddr) public view returns(string memory FirstName,string memory MiddleName,string memory LastName,string memory Gender,uint8 Age,uint TotalRecords){
         string memory gender;
-        if(users[id].gender)
+        if(user[userAddr].gender)
             gender="Female";
         else
             gender="Male";
-        return(users[id].firstName,users[id].middleName,users[id].lastName,gender,users[id].age); 
+        return(user[userAddr].firstName,user[userAddr].middleName,user[userAddr].lastName,gender,user[userAddr].age,user[userAddr].noOfRecords); 
+    }
+        
+    function addRecord(string memory index,string memory _reason,string memory _desc) public payable{
+        Document memory d = documents[index];
+        d.reason=_reason;
+        d.desc=_desc;
+        documents[index]=d;
+    }
+    function addMedicalDocs(string memory index,string memory hash) public payable{
+     documents[index].medicalDocs.push(hash);   
+    }
+    
+    function addBills(string memory index,string memory hash) public payable{
+     documents[index].bills.push(hash);   
+    }
+    
+    function showRecord(string memory index) public view returns(string memory Reason, string memory Description,string[] memory MedicalDocs,string[] memory Bills){
+        return(documents[index].reason,documents[index].desc, documents[index].medicalDocs,documents[index].bills);
     }
     
 }
