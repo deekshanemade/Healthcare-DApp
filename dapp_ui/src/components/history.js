@@ -9,7 +9,6 @@ let showHistory = true;
 
 function history() {    
     const medicalHistory=[{Reason:"a",Description:"a"},{Reason:"b",Description:"b"},{Reason:"c",Description:"c"}]
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const history = useHistory();
     const handleEvent = () => history.push('/dashboard/medical-details');
     if(showHistory){
