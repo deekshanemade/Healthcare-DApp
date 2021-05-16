@@ -6,6 +6,7 @@ import History from './history';
 import Profile from './profile';
 import SignIn from './sign_in';
 import Medical_details from './medical_details';
+import Insurance from './insurance';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import '../components/dashboard.css';
 
@@ -25,6 +26,7 @@ function dashboard(props) {
                             <Route exact path='/dashboard' render={() => <Profile drizzle={drizzle} drizzleState={drizzleState} />} />
                             <Route path='/dashboard/history' render={() => <History drizzle={drizzle} drizzleState={drizzleState} />} />
                             <Route path='/dashboard/medical-details' render={() => <Medical_details drizzle={drizzle} drizzleState={drizzleState} />} />
+                            <Route path='/dashboard/insurance' render={() => <Insurance drizzle={drizzle} drizzleState={drizzleState} />} />
                         </Switch>
                     </Col>
                 </Row>

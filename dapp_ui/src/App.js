@@ -10,8 +10,11 @@ import Healthcare from './artifacts/Healthcare.json';
 
 const drizzleOptions = {
     web3: {
-        block: false,
-        customProvider: new Web3("ws://localhost:7545"),
+        // customProvider: new Web3("ws://localhost:7545"),
+        fallback:{
+            type: 'ws',
+            url: "ws://localhost:7545"
+        }
       },
     contracts: [Healthcare]
 };
