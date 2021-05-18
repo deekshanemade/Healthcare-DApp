@@ -28,6 +28,14 @@ contract Healthcare {
     }
     mapping(string=>Document) documents;
     
+    struct InsuranceClaim{
+        address userPK;
+        string key;
+        bool generated;
+        bool granted;
+    }
+    mapping(address => InsuranceClaim) claim;
+    
     function addUser(string memory userName, address userAddr,string memory userRole) public{
         require(userAddr==msg.sender && msg.sender!=owner,"Incorrect user address!");
             User memory u = user[userAddr];
@@ -56,10 +64,6 @@ contract Healthcare {
     function showUsersCount() public view returns(uint256){
         return(usersArray.length);
     }
-
-    function showUserName(address userAddr) public view returns(string memory UserName){
-        return(user[userAddr].userName);
-    }
     
     function showAccInfo(address userAddr) public view returns(address Account,string memory UserName,string memory UserRole){
         require(msg.sender==userAddr && userAddr != owner ,"You don't have permission to view user account details!");
@@ -73,6 +77,10 @@ contract Healthcare {
         else
             gender="Male";
         return(user[userAddr].firstName,user[userAddr].middleName,user[userAddr].lastName,gender,user[userAddr].age,user[userAddr].noOfRecords); 
+    }
+    
+    function showUserName(address userAddr) public view returns(string memory UserName){
+        return(user[userAddr].userName);
     }
         
     function addRecord(string memory index,address userAddr, string memory _reason,string memory _desc) public payable{
@@ -92,6 +100,30 @@ contract Healthcare {
     
     function showRecord(string memory index) public view returns(string memory Reason, string memory Description,string[] memory MedicalDocs,string[] memory Bills){
         return(documents[index].reason,documents[index].desc, documents[index].medicalDocs,documents[index].bills);
+    }
+    
+    function createClaimRequest(bool _generated,address userAddr,string memory _key) public payable{
+        require(userAddr==msg.sender && msg.sender!=owner,"Incorrect user address!");
+        InsuranceClaim memory ic= claim[userAddr];
+        ic.userPK=userAddr;
+        ic.key=_key;
+        ic.generated=_generated;
+        ic.granted=false;
+        claim[userAddr]=ic;
+    }
+    
+    function showClaimRequest(address userAddr) public view returns(string memory key,bool generated,bool granted){
+        return(claim[userAddr].key,claim[userAddr].generated,claim[userAddr].granted);
+    }
+    
+    function grantClaimRequest(address userAddr) public payable{
+        claim[userAddr].granted=true;
+    }
+    
+    function deleteClaimRequest(address userAddr) public payable{
+        claim[userAddr].key='';
+        claim[userAddr].generated=false;
+        claim[userAddr].granted=false;
     }
     
 }

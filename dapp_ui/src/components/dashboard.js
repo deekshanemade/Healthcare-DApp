@@ -1,4 +1,4 @@
-import React from 'react'
+import {React, useState} from 'react'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from './Navbar';
@@ -10,8 +10,14 @@ import Insurance from './insurance';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import '../components/dashboard.css';
 
-function dashboard(props) {
+function Dashboard(props) {
     const { drizzle, drizzleState } = props;
+    const [role, setRole] = useState('Patient');
+    let sender = drizzle.web3.eth.accounts.givenProvider.selectedAddress;
+    drizzle.contracts.Healthcare.methods.showAccInfo(sender).call().then(result => {
+        setRole(result[2]);
+    })
+
     return (
         <>
             <Router>
@@ -26,7 +32,7 @@ function dashboard(props) {
                             <Route exact path='/dashboard' render={() => <Profile drizzle={drizzle} drizzleState={drizzleState} />} />
                             <Route path='/dashboard/history' render={() => <History drizzle={drizzle} drizzleState={drizzleState} />} />
                             <Route path='/dashboard/medical-details' render={() => <Medical_details drizzle={drizzle} drizzleState={drizzleState} />} />
-                            <Route path='/dashboard/insurance' render={() => <Insurance drizzle={drizzle} drizzleState={drizzleState} />} />
+                            <Route path='/dashboard/insurance' render={() => <Insurance drizzle={drizzle} drizzleState={drizzleState} role={role}/>} />
                         </Switch>
                     </Col>
                 </Row>
@@ -36,4 +42,4 @@ function dashboard(props) {
     )
 }
 
-export default dashboard
+export default Dashboard
