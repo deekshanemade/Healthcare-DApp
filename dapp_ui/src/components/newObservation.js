@@ -3,9 +3,10 @@ import './newObservation.css';
 import { newContextComponents } from "@drizzle/react-components";
 const { ContractData, ContractForm } = newContextComponents;
 
-function NewObservation({ drizzle, drizzleState }) {
-    const acc = drizzle.web3.eth.accounts.givenProvider.selectedAddress;
-    
+function NewObservation( d ) {
+    const drizzle = d.drizzle;
+    console.log('drizzle: ', drizzle);
+    const acc = drizzle.web3.eth.accounts.givenProvider.selectedAddress;    
         return(
             <div className="new-observation">
                 <p className="heading">Add New Observation</p>

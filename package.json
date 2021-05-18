@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "bootstrap": "^4.6.0",
-    "react-bootstrap": "^1.5.2"
+    "ipfs-http-client": "^50.0.0",
+    "react-bootstrap": "^1.5.2",
+    "react-redux": "^7.2.4",
+    "redux": "^4.1.0"
   }
 }

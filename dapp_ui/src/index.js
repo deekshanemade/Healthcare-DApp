@@ -1,18 +1,15 @@
 import React from 'react';
+import App from './App';
 import ReactDOM from 'react-dom';
 import './index.css';
-import {Provider} from 'react-redux';
-import {createStore} from 'redux';
-import App from './App';
-import reducer from './components/reducer'
+// import {Provider} from 'react-redux';
+// import {createStore} from 'redux';
+// import reducer from './components/reducer'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
-const store = createStore(reducer);
 ReactDOM.render(
   <>
-  <Provider store = {store}>
     <App />
-    </Provider>
   </>,
   document.getElementById('root')
 );
