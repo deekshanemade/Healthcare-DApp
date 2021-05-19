@@ -18,6 +18,9 @@ const { create } = require('ipfs-http-client')
 const ipfs = create({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 
 class UploadDoc extends React.Component {
+  drizzle = this.props.data.drizzle;
+  key = this.props.data.key;
+  // console.log('drizzle: ', drizzle);
   state = {
     selectedFile: null,
     buffer: null,
@@ -61,6 +64,33 @@ class UploadDoc extends React.Component {
       const result = await ipfs.add(this.state.buffer);
       this.setState({ hash: result.path });
       console.log(this.state.hash);
+      this.drizzle.contracts.Healthcare.methods.addMedicalDocs(this.key,this.state.hash).send()
+      this.setState({url: "https://ipfs.infura.io/ipfs/"+this.state.hash , fileUploaded: true})
+    }
+    ipfsUpload();
+
+  }
+
+  onBillUpload = (event) => {
+    event.preventDefault()
+    // Create an object of formData
+    const formData = new FormData();
+
+    // Update the formData object
+    formData.append(
+      "myFile",
+      this.state.selectedFile,
+      this.state.selectedFile.name
+    );
+
+    // Details of the uploaded file
+    console.log(this.state.selectedFile, ipfs);
+
+    const ipfsUpload = async () => {
+      const result = await ipfs.add(this.state.buffer);
+      this.setState({ hash: result.path });
+      console.log(this.state.hash);
+      this.drizzle.contracts.Healthcare.methods.addBills(this.key,this.state.hash).send()
       this.setState({url: "https://ipfs.infura.io/ipfs/"+this.state.hash , fileUploaded: true})
     }
     ipfsUpload();
@@ -109,6 +139,7 @@ class UploadDoc extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <>
         <Row>
@@ -123,12 +154,12 @@ class UploadDoc extends React.Component {
             <h5>To upload Medical Bills:</h5>
             <div>
               <input type="file" onChange={this.onFileChange} />
-              <Button size="sm" onClick={this.onFileUpload}>Upload</Button>
+              <Button size="sm" onClick={this.onBillUpload}>Upload</Button>
             </div>
           </Col>
         </Row>
         {this.fileData()} {/*optional to diplay info of file being uploaded*/}
-        {this.fileLink()} {/*hashes can be converted to links which open files in new tab*/}
+        {/* {this.fileLink()} hashes can be converted to links which open files in new tab */}
       </>
     );
   }

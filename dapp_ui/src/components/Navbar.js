@@ -1,4 +1,3 @@
-//import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 import './Navbar.css';
 import logo from '../assets/profile-user.svg';
@@ -13,15 +12,23 @@ function Navbar(props) {
         history.go(0);
     }
     let sender = drizzle.web3.eth.accounts.givenProvider.selectedAddress;
+    drizzle.contracts.Healthcare.methods.showAccInfo(sender).call().then(result => {
+        if (result[2] == "Insurance agent") {
+            document.getElementById("Doc").hidden = true;
+        }
+        if (result[2] == "Doctor") {
+            document.getElementById("IA").hidden = true;
+        }
+    })
     return (
         <>
             <div className="title"><span><img src={logo} alt="DP" />
-            <ContractData drizzle={drizzle} drizzleState={drizzleState} contract="Healthcare" method="showUserName" methodArgs={[sender, { from: sender }]} />
+                <ContractData drizzle={drizzle} drizzleState={drizzleState} contract="Healthcare" method="showUserName" methodArgs={[sender, { from: sender }]} />
             </span></div>
             <ul>
                 <li className="modify"><Link to="/dashboard">Profile</Link></li>
-                <li className="modify"><Link to="/dashboard/history">Medical history</Link></li>
-                <li className="modify"><Link to="/dashboard/#">Insurance claim</Link></li>
+                <li id="Doc" className="modify"><Link to="/dashboard/history">Medical history</Link></li>
+                <li id="IA" className="modify"><Link to="/dashboard/insurance">Insurance claim</Link></li>
                 <Button variant="outline-danger" onClick={handleLogout}>Sign out</Button>
             </ul>
         </>

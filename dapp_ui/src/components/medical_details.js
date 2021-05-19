@@ -11,11 +11,14 @@ import './medical_detail.css'
 //     reason: "Diabeties",
 //     description: "adbkbuiwdergve"
 // }
-function medical_details(){
+function medical_details(props){
     const location = useLocation();
     console.log(location.state.obj)
     const currentRecord = location.state.obj;
-    // const {drizzle,drizzleState}=props;
+    const {drizzle,drizzleState}=props;
+    const docProps = {
+        drizzle:drizzle,key:currentRecord.key
+    }
 
     // const { currentRecord } = props
     return (
@@ -33,12 +36,20 @@ function medical_details(){
                 <div className="reports">
                     <div className = "left-part">
                         <p>Reports and Prescription</p>
+                        {currentRecord.docs.map((value, index) => {
+                                        const url = "https://ipfs.infura.io/ipfs/" + value;
+                                        return <><a href={url} target="_blank">Document {index + 1}</a><br /></>
+                        })}
                     </div>
                     <div className = "right-part">
                         <p>Bills</p>
+                        {currentRecord.bills.map((value, index) => {
+                                        const url = "https://ipfs.infura.io/ipfs/" + value;
+                                        return <><a href={url} target="_blank">Document {index + 1}</a><br /></>
+                        })}
                     </div>
                 </div>
-                <UploadDoc></UploadDoc>
+                {!currentRecord.isPatient && <UploadDoc data={docProps} ></UploadDoc>}
             </div>
         </>
     );

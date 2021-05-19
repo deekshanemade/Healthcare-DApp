@@ -4,7 +4,8 @@ import { useHistory } from 'react-router-dom';
 
 function Records(v) {
     const value = v.val;
-    console.log(value)
+    console.log(v)
+    value["isPatient"] = v.isPatient;
     const history = useHistory();
     const handleEvent = (val) => {
         history.push({pathname:'/dashboard/medical-details',state:{obj:val}})
