@@ -33,6 +33,7 @@ contract Healthcare {
         string key;
         bool generated;
         bool granted;
+        string Claim_Request;
     }
     mapping(address => InsuranceClaim) claim;
     
@@ -109,21 +110,29 @@ contract Healthcare {
         ic.key=_key;
         ic.generated=_generated;
         ic.granted=false;
+        ic.Claim_Request="Pending";
         claim[userAddr]=ic;
     }
     
-    function showClaimRequest(address userAddr) public view returns(string memory key,bool generated,bool granted){
-        return(claim[userAddr].key,claim[userAddr].generated,claim[userAddr].granted);
+    function showClaimRequest(address userAddr) public view returns(string memory Key,bool Request_Generated,string memory Request_Status){
+        return(claim[userAddr].key,claim[userAddr].generated,claim[userAddr].Claim_Request);
     }
     
     function grantClaimRequest(address userAddr) public payable{
         claim[userAddr].granted=true;
+        claim[userAddr].Claim_Request="Granted";
+    }
+    
+    function rejectClaimRequest(address userAddr) public payable{
+        claim[userAddr].granted=false;
+        claim[userAddr].Claim_Request="Rejected";
     }
     
     function deleteClaimRequest(address userAddr) public payable{
         claim[userAddr].key='';
         claim[userAddr].generated=false;
         claim[userAddr].granted=false;
+        claim[userAddr].Claim_Request="Deleted";
     }
     
 }

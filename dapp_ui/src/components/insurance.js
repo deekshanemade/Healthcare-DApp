@@ -7,7 +7,7 @@ export class Insurance extends Component {
     state = {
         addr: this.props.drizzle.web3.eth.accounts.givenProvider.selectedAddress,
         key: '',
-        granted: 'No',
+        granted: '',
         sender: this.props.drizzle.web3.eth.accounts.givenProvider.selectedAddress,
         show: false,
         fName: 'First Name',
@@ -33,8 +33,7 @@ export class Insurance extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         this.props.drizzle.contracts.Healthcare.methods.showClaimRequest(this.state.addr).call().then(result => {
-            if (result[2] == true) { this.setState({ granted: 'Yes' }) } else { this.setState({ granted: 'No' }) }
-            this.setState({ key: result[0] });
+            this.setState({ key: result[0], granted: result[2] });
         })
         this.props.drizzle.contracts.Healthcare.methods.showPersonalInfo(this.state.addr).call().then(result => {
             this.setState({ fName: result[0], mName: result[1], lName: result[2], gender: result[3], age: result[4], show: true });
@@ -50,11 +49,17 @@ export class Insurance extends Component {
         event.preventDefault();
         this.props.drizzle.contracts.Healthcare.methods.grantClaimRequest(this.state.addr).send().then(res => {
             this.props.drizzle.contracts.Healthcare.methods.showClaimRequest(this.state.addr).call().then(result => {
-                if (result[2] == true) {
-                    this.setState({ granted: 'Yes' })
-                    console.log("On grant:", result[2], this.state.granted)
-                    this.showData()
-                }
+                    this.setState({ granted: result[2] })
+                    this.showData()              
+            })
+        })
+    }
+    onReject = (event) => {
+        event.preventDefault();
+        this.props.drizzle.contracts.Healthcare.methods.rejectClaimRequest(this.state.addr).send().then(res => {
+            this.props.drizzle.contracts.Healthcare.methods.showClaimRequest(this.state.addr).call().then(result => {
+                this.setState({ granted: result[2] })
+                this.showData()      
             })
         })
     }
@@ -82,7 +87,7 @@ export class Insurance extends Component {
                             <br />
                             <h6>Key:</h6>
                             <p>{this.state.key}</p>
-                            <h6>Claim granted:</h6>
+                            <h6>Insurance claim request status:</h6>
                             <p>{this.state.granted}</p>
                             <hr></hr>
                             <h4>Medical Data</h4>
@@ -117,9 +122,12 @@ export class Insurance extends Component {
         if (this.state.show) {
             return (
                 <>
-                    <h5>Grant patient's claim request:</h5>
+                    <h5>Respond to patient's claim request:</h5>
                     <form className="Form" onSubmit={this.onGrant}>
                         <Button size="sm" type="submit" variant="success">Grant</Button>
+                    </form>
+                    <form className="Form" onSubmit={this.onReject}>
+                        <Button size="sm" type="submit" variant="danger">Reject</Button>
                     </form>
                 </>
             )
@@ -140,9 +148,12 @@ export class Insurance extends Component {
                             <ContractForm drizzle={this.props.drizzle} contract="Healthcare" method="deleteClaimRequest" sendArgs={{ from: this.state.sender, gas: 600000 }} />
                         </Col>
                     </Row>
-                    <br />
-                    <h5>Insurance Claim request:</h5>
-                    <ContractData drizzle={this.props.drizzle} drizzleState={this.props.drizzleState} contract="Healthcare" method="showClaimRequest" methodArgs={[this.state.sender]} />
+                    <hr />
+                    <div className="patientUI">
+                        <br />
+                        <h5>Insurance Claim request:</h5>
+                        <ContractData drizzle={this.props.drizzle} drizzleState={this.props.drizzleState} contract="Healthcare" method="showClaimRequest" methodArgs={[this.state.sender]} />
+                    </div>
                 </div>
             )
         }
