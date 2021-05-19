@@ -33,24 +33,29 @@ export class Insurance extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         this.props.drizzle.contracts.Healthcare.methods.showClaimRequest(this.state.addr).call().then(result => {
-            if (result[2] == true) { this.setState({ granted: 'Yes' }) } else {this.setState({ granted: 'No' })}
+            if (result[2] == true) { this.setState({ granted: 'Yes' }) } else { this.setState({ granted: 'No' }) }
             this.setState({ key: result[0] });
         })
         this.props.drizzle.contracts.Healthcare.methods.showPersonalInfo(this.state.addr).call().then(result => {
             this.setState({ fName: result[0], mName: result[1], lName: result[2], gender: result[3], age: result[4], show: true });
-            this.showData()
+            this.props.drizzle.contracts.Healthcare.methods.showRecord(this.state.key).call().then(res => {
+                // console.log(res)
+                this.setState({ reason: res[0], description: res[1], medicalDocs: res[2], bills: res[3] });
+                this.showData()
+            })
         })
-        this.props.drizzle.contracts.Healthcare.methods.showRecord(this.state.key).call().then(res => {
-            this.setState({ reason: res[0], description: res[1], medicalDocs: res[2], bills: res[3] });
-        })
-        console.log("Sender address: ", this.state.addr, "Metamask address: ", this.state.sender, this.state.show, this.state.key)
+        console.log("Sender address:", this.state.addr, "Metamask address:", this.state.sender, "Key:", this.state.key)
     }
     onGrant = (event) => {
         event.preventDefault();
-        this.props.drizzle.contracts.Healthcare.methods.grantClaimRequest(this.state.addr).send()
-        this.props.drizzle.contracts.Healthcare.methods.showClaimRequest(this.state.addr).call().then(result => {
-            if (result[2] == true) { this.setState({ granted: 'Yes' }) }
-            console.log(this.state.addr, result[2], this.state.granted)
+        this.props.drizzle.contracts.Healthcare.methods.grantClaimRequest(this.state.addr).send().then(res => {
+            this.props.drizzle.contracts.Healthcare.methods.showClaimRequest(this.state.addr).call().then(result => {
+                if (result[2] == true) {
+                    this.setState({ granted: 'Yes' })
+                    console.log("On grant:", result[2], this.state.granted)
+                    this.showData()
+                }
+            })
         })
     }
     showData = () => {
@@ -121,7 +126,7 @@ export class Insurance extends Component {
         }
     }
     PatientUI = () => {
-        console.log("Patient:", this.state.showPatient)
+        // console.log("Patient:", this.state.showPatient)
         if (this.state.showPatient) {
             return (
                 <div >
@@ -143,7 +148,7 @@ export class Insurance extends Component {
         }
     }
     InsuranceUI = () => {
-        console.log("Insurance agent:", this.state.showIA)
+        // console.log("Insurance agent:", this.state.showIA)
         if (this.state.showIA) {
             return (
                 <div>
@@ -169,7 +174,6 @@ export class Insurance extends Component {
         }
     }
     render() {
-        console.log(this.props.role)
         return (
             <div className="wrapper">
                 {this.PatientUI()}

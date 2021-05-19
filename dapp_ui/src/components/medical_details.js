@@ -45,10 +45,11 @@ function medical_details(props){
                         <p>Bills</p>
                         {currentRecord.bills.map((value, index) => {
                                         const url = "https://ipfs.infura.io/ipfs/" + value;
-                                        return <><a href={url} target="_blank">Document {index + 1}</a><br /></>
+                                        return <><a href={url} target="_blank">Bill {index + 1}</a><br /></>
                         })}
                     </div>
                 </div>
+                <br />
                 {!currentRecord.isPatient && <UploadDoc data={docProps} ></UploadDoc>}
             </div>
         </>

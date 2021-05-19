@@ -18,6 +18,7 @@ if(value){
   <div class="medical-data-container">
 <p class="data-heading">Reason: <p className="medical-data">{value.Reason}</p> </p>
 <p>Description: <p className="medical-data">{value.Description}</p> </p>
+<p>Key: <p className="medical-data">{value.key}</p> </p>
 </div>
 </div>
 )

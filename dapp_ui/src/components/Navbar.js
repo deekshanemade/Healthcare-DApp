@@ -5,21 +5,20 @@ import { Link, useHistory } from 'react-router-dom';
 import { newContextComponents } from "@drizzle/react-components";
 const { ContractData } = newContextComponents;
 function Navbar(props) {
-    const { drizzle, drizzleState } = props;
+    const { drizzle, drizzleState, role } = props;
     const history = useHistory();
     const handleLogout = () => {
         history.replace('/');
         history.go(0);
     }
     let sender = drizzle.web3.eth.accounts.givenProvider.selectedAddress;
-    drizzle.contracts.Healthcare.methods.showAccInfo(sender).call().then(result => {
-        if (result[2] == "Insurance agent") {
-            document.getElementById("Doc").hidden = true;
-        }
-        if (result[2] == "Doctor") {
-            document.getElementById("IA").hidden = true;
-        }
-    })
+    // drizzle.contracts.Healthcare.methods.showAccInfo(sender).call().then(result => {})
+    if (role == "Insurance agent") {
+        document.getElementById("Doc").hidden = true;
+    }
+    if (role == "Doctor") {
+        document.getElementById("IA").hidden = true;
+    }
     return (
         <>
             <div className="title"><span><img src={logo} alt="DP" />

@@ -25,7 +25,7 @@ function Dashboard(props) {
                 <Route exact path='/' render={() => <SignIn drizzle={drizzle} drizzleState={drizzleState} />}></Route>
                 <Row>
                     <Col lg={3} className="sidenav">
-                        <Navbar drizzle={drizzle} drizzleState={drizzleState}/>
+                        <Navbar drizzle={drizzle} drizzleState={drizzleState} role={role}/>
                     </Col>
                     <Col>
                         <div className="dash">Dashboard</div>
