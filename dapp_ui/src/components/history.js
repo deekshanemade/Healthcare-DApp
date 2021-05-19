@@ -29,7 +29,7 @@ let showHistory = true;
 class History extends React.Component{ 
         drizzle = this.props.drizzle;
         drizzleState = this.props.drizzleState;
-        state = { medicalHistory:[], recs:0, isPatient:true, pid:null , reason:"", desc:""};
+        state = { medicalHistory:[], recs:0, isPatient:true, pid:null , reason:"", desc:"", showData:false};
 
         
         // history = useHistory();
@@ -86,7 +86,15 @@ class History extends React.Component{
 
         showData = () => {
                 const medicalHistory = this.state.medicalHistory;
-                if(this.state.pid){
+                if(this.state.showData){
+                        if(this.state.recs==0){
+                                return(
+                                        <div>
+                                                <p>No Records Present</p>
+                                        </div>
+                                )
+                        }
+                        else{
                 return (
                 
                 <>
@@ -113,10 +121,11 @@ class History extends React.Component{
             </div>
                 </>
                 )
+                        }
                 }
         }
         handleAdd = ()=>{
-                const key = this.state.pid.toLowerCase()+"_"+(this.state.recs+1).toString();
+                const key = this.state.pid.toLowerCase()+"_"+(parseInt(this.state.recs)+1).toString();
                 this.drizzle.contracts.Healthcare.methods.addRecord(key,this.state.pid,this.state.reason,this.state.desc).send();
         }
 
@@ -124,7 +133,9 @@ class History extends React.Component{
                 event.preventDefault();
                 const pid = this.state.pid.toLowerCase();
                 const medicalHis=[];
+                this.setState({showData:true})
                 this.drizzle.contracts.Healthcare.methods.showPersonalInfo(pid).call().then(res=>{
+                        this.setState({recs:res.TotalRecords})
                 for(let i=1;i<=res.TotalRecords;i++){
                         this.drizzle.contracts.Healthcare.methods.showRecord(pid+"_"+i.toString()).call().then(record=>{
                                 let temp = {
@@ -173,6 +184,14 @@ class History extends React.Component{
                 // const isLoaded = this.state.isDataLoaded;
         // if(isLoaded){
         if(this.state.isPatient){
+                if(this.state.recs==0){
+                        return(
+                                <div>
+                                        <p>No Records Present</p>
+                                </div>
+                        )
+                }
+                else{
         return (
                 
                 <>
@@ -194,7 +213,7 @@ class History extends React.Component{
                         {/* <NewObservation drizzle={drizzle} totalRec={rec} pid={pid}></NewObservation> */}
                         </>
             )   
-                // } 
+                } 
                 }
         }
 }

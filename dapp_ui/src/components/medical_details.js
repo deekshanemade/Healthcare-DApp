@@ -31,6 +31,7 @@ function medical_details(props){
                     <div className="medical-data-container">
                         <p className="data-heading">Reason: <p className="medical-data">{currentRecord.Reason}</p> </p>
                         <p>Description: <p className="medical-data">{currentRecord.Description}</p> </p>
+                        <p>Key: <p className="medical-data">{currentRecord.key}</p> </p>
                     </div>
                 </div>
                 <div className="reports">
