@@ -29,7 +29,7 @@ let showHistory = true;
 class History extends React.Component{ 
         drizzle = this.props.drizzle;
         drizzleState = this.props.drizzleState;
-        state = { medicalHistory:[], recs:0, isPatient:true, pid:null , reason:"", desc:"", showData:false};
+        state = { medicalHistory:[], recs:0, isPatient:true, pid:null , reason:"", desc:"", showData:false,name:"",gender:"",age:""};
 
         
         // history = useHistory();
@@ -58,7 +58,7 @@ class History extends React.Component{
                                                 key:acc+"_"+i.toString()
                                         }
                             console.log(temp);
-                            medicalHis.push(temp)
+                            medicalHis.unshift(temp)
                             this.setState({ medicalHistory:medicalHis });
                                 })
                         }
@@ -89,15 +89,52 @@ class History extends React.Component{
                 if(this.state.showData){
                         if(this.state.recs==0){
                                 return(
+                                        <>
+                                        <div className="personal-data">
+                                                <p className="data">Name: {this.state.name}</p>
+                                                <p className="data">Gender: {this.state.gender}</p>
+                                                <p className="data">Age: {this.state.age}</p>
+                                        </div>
+                                        <div className="new-observation">
+                                        <p className="heading">Add New Observation</p>
+                                        {/* <ContractForm drizzle={drizzle} contract="Healthcare" method="addRecord" sendArgs={{ from: acc, gas: 600000 }}/> */}
+                                        <form>
+                                            <label>Reason: </label>
+                                            <input type="text" onChange={event => this.setState({reason:event.target.value})} />
+                                            <br></br>
+                                            <label>Description: </label>
+                                            <input type="text" onChange={event => this.setState({desc:event.target.value})} />
+                                            <Button variant="primary" onClick={this.handleAdd}>Add Record</Button>
+                                        </form>
+                                    </div>
                                         <div>
                                                 <p>No Records Present</p>
                                         </div>
+                                        
+                                    </>
                                 )
                         }
                         else{
                 return (
                 
                 <>
+                <div className="personal-data">
+                                                <p className="data">Name: {this.state.name}</p>
+                                                <p className="data">Gender: {this.state.gender}</p>
+                                                <p className="data">Age: {this.state.age}</p>
+                                        </div>
+                                        <div className="new-observation">
+                                        <p className="heading">Add New Observation</p>
+                                        {/* <ContractForm drizzle={drizzle} contract="Healthcare" method="addRecord" sendArgs={{ from: acc, gas: 600000 }}/> */}
+                                        <form>
+                                            <label>Reason: </label>
+                                            <input type="text" onChange={event => this.setState({reason:event.target.value})} />
+                                            <br></br>
+                                            <label>Description: </label>
+                                            <input type="text" onChange={event => this.setState({desc:event.target.value})} />
+                                            <Button variant="primary" onClick={this.handleAdd}>Add Record</Button>
+                                        </form>
+                                    </div>
                 <div className="history-wrapper">
                 
                         {medicalHistory.map((value,index)=>{
@@ -107,18 +144,6 @@ class History extends React.Component{
                         })}
                     
                 </div>
-                <div className="new-observation">
-                <p className="heading">Add New Observation</p>
-                {/* <ContractForm drizzle={drizzle} contract="Healthcare" method="addRecord" sendArgs={{ from: acc, gas: 600000 }}/> */}
-                <form>
-                    <label>Reason: </label>
-                    <input type="text" onChange={event => this.setState({reason:event.target.value})} />
-                    <br></br>
-                    <label>Description: </label>
-                    <input type="text" onChange={event => this.setState({desc:event.target.value})} />
-                    <Button variant="primary" onClick={this.handleAdd}>Add Record</Button>
-                </form>
-            </div>
                 </>
                 )
                         }
@@ -126,16 +151,18 @@ class History extends React.Component{
         }
         handleAdd = ()=>{
                 const key = this.state.pid.toLowerCase()+"_"+(parseInt(this.state.recs)+1).toString();
-                this.drizzle.contracts.Healthcare.methods.addRecord(key,this.state.pid,this.state.reason,this.state.desc).send();
+
+                this.drizzle.contracts.Healthcare.methods.addRecord(key,this.state.pid,this.state.reason,this.state.desc).send().then(()=>{
+                        this.fetchData();
+                });
         }
 
-        onSubmit = (event)=>{
-                event.preventDefault();
+        fetchData = () =>{
                 const pid = this.state.pid.toLowerCase();
                 const medicalHis=[];
                 this.setState({showData:true})
                 this.drizzle.contracts.Healthcare.methods.showPersonalInfo(pid).call().then(res=>{
-                        this.setState({recs:res.TotalRecords})
+                        this.setState({recs:res.TotalRecords,name:res.FirstName+" "+res.LastName,gender:res.Gender,age:res.Age})
                 for(let i=1;i<=res.TotalRecords;i++){
                         this.drizzle.contracts.Healthcare.methods.showRecord(pid+"_"+i.toString()).call().then(record=>{
                                 let temp = {
@@ -146,11 +173,17 @@ class History extends React.Component{
                                         key:pid+"_"+i.toString()
                                 }
                     console.log(temp);
-                    medicalHis.push(temp)
+                    medicalHis.unshift(temp)
                     this.setState({ medicalHistory:medicalHis });
                         })
                 }
         })
+        }
+
+        onSubmit = (event)=>{
+                event.preventDefault();
+
+                this.fetchData();
         }
 
         DoctorUI = () => {
