@@ -151,10 +151,19 @@ class History extends React.Component{
         }
         handleAdd = ()=>{
                 const key = this.state.pid.toLowerCase()+"_"+(parseInt(this.state.recs)+1).toString();
-
-                this.drizzle.contracts.Healthcare.methods.addRecord(key,this.state.pid,this.state.reason,this.state.desc).send().then(()=>{
-                        this.fetchData();
-                });
+                const pid = this.state.pid.toLowerCase();
+                const medicalHis=this.state.medicalHistory;
+                let temp = {
+                        Reason:this.state.reason,
+                        Description:this.state.desc,
+                        docs:[],
+                        bills:[],
+                        key:pid+"_"+(parseInt(this.state.recs)+1).toString()
+                }
+    console.log(temp);
+    medicalHis.unshift(temp)
+    this.setState({ medicalHistory:medicalHis });
+                this.drizzle.contracts.Healthcare.methods.addRecord(key,this.state.pid,this.state.reason,this.state.desc).send();
         }
 
         fetchData = () =>{
