@@ -16,6 +16,7 @@ contract Healthcare {
         bool gender;
         uint8 age;
         uint noOfRecords;
+        string docAddr;
     }
     mapping(address => User) user;
     address[] usersArray;               //To get total number of users
@@ -49,6 +50,7 @@ contract Healthcare {
             u.gender=false;
             u.age=0;
             u.noOfRecords=0;
+            u.docAddr="";
             user[userAddr]=u;
             usersArray.push(userAddr);
     }
@@ -82,6 +84,18 @@ contract Healthcare {
     
     function showUserName(address userAddr) public view returns(string memory UserName){
         return(user[userAddr].userName);
+    }
+    
+    function giveAccess(string memory _docAddr,address userAddr) public payable{
+        user[userAddr].docAddr=_docAddr;
+    }
+    
+    function checkAccess(address patientAddr) public view returns(string memory AllowedAccess){ //use the returned value to check if access is given, then show records
+        return(user[patientAddr].docAddr);
+    }
+    
+    function retrieveAccess(address userAddr) public payable{
+        user[userAddr].docAddr="";
     }
         
     function addRecord(string memory index,address userAddr, string memory _reason,string memory _desc) public payable{

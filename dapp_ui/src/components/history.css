@@ -43,3 +43,16 @@
     width: 33%;
     display: inline-block;
 }
+
+.access-block{
+    width: 50%;
+    display: inline-block;
+}
+
+.give-access-button{
+    margin: 0 1rem;
+}
+
+.give-retrive-access{
+    text-align: center;
+}

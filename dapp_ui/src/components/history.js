@@ -29,7 +29,7 @@ let showHistory = true;
 class History extends React.Component{ 
         drizzle = this.props.drizzle;
         drizzleState = this.props.drizzleState;
-        state = { medicalHistory:[], recs:0, isPatient:true, pid:null , reason:"", desc:"", showData:false,name:"",gender:"",age:""};
+        state = { medicalHistory:[], recs:0, isPatient:true, pid:null , reason:"", desc:"", showData:false,name:"",gender:"",age:"", did:null, permissionGivenTo:"" };
 
         
         // history = useHistory();
@@ -39,10 +39,14 @@ class History extends React.Component{
                 const acc = drizzle.web3.eth.accounts.givenProvider.selectedAddress;
         drizzle.contracts.Healthcare.methods.showAccInfo(acc).call().then(res=>{ 
                 // console.log(res[2])
-                if(res[2] == "Doctor")  
-                this.setState({ isPatient:false });
-                
+                if(res[2] == "Doctor") {
+                this.setState({ isPatient:false,did:acc });
+                }
                 if(res[2] !== "Doctor"){
+                        this.setState({ pid:acc });
+                        drizzle.contracts.Healthcare.methods.checkAccess(acc).call().then(res=>{
+                                this.setState({ permissionGivenTo:res.toLowercase() });
+                        })
                 drizzle.contracts.Healthcare.methods.showPersonalInfo(acc).call().then(res=>{
         
                         console.log(res.TotalRecords)
@@ -86,7 +90,7 @@ class History extends React.Component{
 
         showData = () => {
                 const medicalHistory = this.state.medicalHistory;
-                if(this.state.showData){
+                if(this.state.showData && this.state.permissionGivenTo == this.state.did){
                         if(this.state.recs==0){
                                 return(
                                         <>
@@ -147,6 +151,12 @@ class History extends React.Component{
                 </>
                 )
                         }
+                }else if(this.state.showData && this.state.permissionGivenTo !== this.state.did){
+                        return(
+                                <div>
+                                        <p>You dont have permission to access data.</p>
+                                </div>
+                        )
                 }
         }
         handleAdd = ()=>{
@@ -170,6 +180,9 @@ class History extends React.Component{
                 const pid = this.state.pid.toLowerCase();
                 const medicalHis=[];
                 this.setState({showData:true})
+                this.drizzle.contracts.Healthcare.methods.checkAccess(pid).call().then(res=>{
+                        this.setState({ permissionGivenTo:res.toLowerCase() });
+                })
                 this.drizzle.contracts.Healthcare.methods.showPersonalInfo(pid).call().then(res=>{
                         this.setState({recs:res.TotalRecords,name:res.FirstName+" "+res.LastName,gender:res.Gender,age:res.Age})
                 for(let i=1;i<=res.TotalRecords;i++){
@@ -216,7 +229,19 @@ class History extends React.Component{
             )
                 }
         }
+
+        giveAccess = () => {
+                this.drizzle.contracts.Healthcare.methods.giveAccess(this.state.did,this.state.pid).send().then(()=>{
+                        this.setState({ permissionGivenTo:this.state.did })
+                });
+        }
         
+        retriveAccess = () => {
+                this.drizzle.contracts.Healthcare.methods.retrieveAccess(this.state.pid).send().then(()=>{
+                        this.setState({ permissionGivenTo:"" })
+                });
+        }
+
         PatientUI = () => {
                 const medicalHistory = this.state.medicalHistory;
                 const drizzle = this.drizzle;
@@ -229,7 +254,19 @@ class History extends React.Component{
                 if(this.state.recs==0){
                         return(
                                 <div>
-                                        <p>No Records Present</p>
+                                        <div className="give-retrive-access">
+                                                <div className="access-block">
+                                                        <p>Enter Doctor id to give access</p>
+                                                        <input type="text" onChange={event => this.setState({ did: event.target.value })} />
+                                                        <Button size="sm" type="submit" className="give-access-button" onClick={this.giveAccess}>Give Access</Button>
+                                                </div>
+                                                <div className="access-block">
+                                                        <p>Permission given to: {this.state.permissionGivenTo}</p>
+                                                        <Button size="sm" type="submit" onClick={this.retriveAccess}>Retrive Access</Button>
+                                                </div>
+                                        </div>
+                
+                                        <p className="give-retrive-access">No Records Present</p>
                                 </div>
                         )
                 }
@@ -237,6 +274,17 @@ class History extends React.Component{
         return (
                 
                 <>
+                <div className="give-retrive-access">
+                        <div className="access-block">
+                                <p>Enter Doctor id to give access</p>
+                                <input type="text" onChange={event => this.setState({ did: event.target.value })} />
+                                <Button size="sm" type="submit" className="give-access-button" onClick={this.giveAccess}>Give Access</Button>
+                        </div>
+                        <div className="access-block">
+                                <p>Permission given to: {this.state.permissionGivenTo}</p>
+                                <Button size="sm" type="submit" onClick={this.retriveAccess}>Retrive Access</Button>
+                        </div>
+                </div>
                 <div className="history-wrapper">
                 
                         {medicalHistory.map((value,index)=>{
