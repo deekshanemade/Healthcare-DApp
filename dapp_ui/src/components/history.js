@@ -45,7 +45,7 @@ class History extends React.Component{
                 if(res[2] !== "Doctor"){
                         this.setState({ pid:acc });
                         drizzle.contracts.Healthcare.methods.checkAccess(acc).call().then(res=>{
-                                this.setState({ permissionGivenTo:res.toLowercase() });
+                                {this.setState({ permissionGivenTo:res.toLowerCase() });}
                         })
                 drizzle.contracts.Healthcare.methods.showPersonalInfo(acc).call().then(res=>{
         
